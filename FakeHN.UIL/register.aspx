@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="FakeHN.UIL.Login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="register.aspx.cs" Inherits="FakeHN.UIL.register" %>
 
 <!DOCTYPE html>
 
@@ -7,7 +7,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Register</title>
 
     <!-- stylesheets -->
     <link rel="stylesheet" href="style/style.css" />
@@ -51,23 +51,27 @@
             </div>
             <div class="card-body">
                 <div class="container-fluid d-flex justify-content-center align-align-items-center my-5 w-100 h-100">
-                    <form id="loginForm" runat="server">
+                    <form id="registerForm" runat="server">
                       <div class="form-group mb-2">
-                        <label for="exampleInputEmail1">Username</label>
-                        <input type="text" class="form-control" id="loginFormUsername" placeholder="Username" runat="server"/>
+                        <label for="registerFormName">Name</label>
+                        <input type="text" class="form-control" id="registerFormName" placeholder="Name" runat="server"/>
                       </div>
                       <div class="form-group mb-2">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input type="password" class="form-control" id="loginFormPassword" placeholder="Password" runat="server"/>
+                        <label for="registerFormFamily">Family</label>
+                        <input type="text" class="form-control" id="registerFormFamily" placeholder="Family" runat="server"/>
                       </div>
-                      <asp:Button type="submit" class="btn btn-primary mb-2" runat="server" OnClick="LoginButtonClick" Text="Login"></asp:Button>
-                      <div class="d-block">
-                         <small>Haven't you registered before ?</small>
-                         <asp:Button ID="loginFormRegisterButton" type="submit" class="btn bg-transparent text-decoration-underline text-dark" runat="server" OnClick="RegisterButtonClick" Text="Register"></asp:Button>
+                      <div class="form-group mb-2">
+                        <label for="registerFormUsername">Username</label>
+                        <input type="text" class="form-control" id="registerFormUsername" placeholder="Username" runat="server"/>
                       </div>
+                      <div class="form-group mb-2">
+                        <label for="registerFormPassword">Password</label>
+                        <input type="password" class="form-control" id="registerFormPassword" placeholder="Password" runat="server"/>
+                      </div>
+                      <asp:Button type="submit" class="btn btn-primary mt-2" runat="server" OnClick="RegisterButtonClick" Text="Register"></asp:Button>
                     </form>
                  </div>
-                  <div id="loginResult" class="card-footer text-muted" runat="server">
+                  <div id="registerResult" class="card-footer text-muted" runat="server">
                  </div>
             </div>
         </div>

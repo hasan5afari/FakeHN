@@ -21,5 +21,17 @@ namespace FakeHN.BLL
             UserDao userDao = new UserDao();
             return userDao.isValidUser(username, password);
         }
+
+        public bool usernameExists(string username)
+        {
+            UserDao userDao = new UserDao();
+            return userDao.usernameExists(username);
+        }
+
+        public bool registerUser(User user)
+        {
+            UserDao userDao = new UserDao();
+            return userDao.registerUser(user);
+        }
     }
 }

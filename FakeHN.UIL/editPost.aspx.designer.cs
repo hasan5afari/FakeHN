@@ -24,15 +24,6 @@ namespace FakeHN.UIL
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl editUserINFO;
 
         /// <summary>
-        /// editPostForm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm editPostForm;
-
-        /// <summary>
         /// editPostTextArea control.
         /// </summary>
         /// <remarks>

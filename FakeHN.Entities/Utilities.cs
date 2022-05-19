@@ -39,5 +39,13 @@ namespace FakeHN.Entities
 
             return newDate;
         }
+
+        public static bool isValidName(string value)
+        {
+            if (!string.IsNullOrEmpty(value) && !value.Contains(" ") && value.Trim().Length != 0)
+                return true;
+            else
+                return false;
+        }
     }
 }

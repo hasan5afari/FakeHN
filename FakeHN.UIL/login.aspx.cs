@@ -13,28 +13,44 @@ namespace FakeHN.UIL
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            // if user didn't log in before, we need to inform him/her .
+            if (!Request.Cookies.AllKeys.Contains("userid"))
+            {
+                loginResult.InnerText = "You need to log in before using FakeHN";
+            }
         }
 
         protected void LoginButtonClick(object sender, EventArgs e)
         {
-            UserManager userManager = new UserManager();
-            string username = loginFormUsername.Value;
-            string password = loginFormPassword.Value;
-
-            User user = userManager.isValidUser(username, password);
-            if (user != null)
+            if (!(loginFormUsername.Value == "" || loginFormPassword.Value == ""))
             {
-                HttpCookie cook = new HttpCookie("userid");
-                cook.Expires = DateTime.Now.AddMinutes(60);
-                cook.Value = user.userid.ToString();
-                Response.Cookies.Add(cook);
-                Response.Redirect("panel.aspx");
+                UserManager userManager = new UserManager();
+                string username = loginFormUsername.Value;
+                string password = loginFormPassword.Value;
+
+                User user = userManager.isValidUser(username, password);
+                if (user != null)
+                {
+                    HttpCookie cook = new HttpCookie("userid");
+                    cook.Expires = DateTime.Now.AddMonths(3);
+                    cook.Value = user.userid.ToString();
+                    Response.Cookies.Add(cook);
+                    Response.Redirect("index.aspx");
+                }
+                else
+                {
+                    loginResult.InnerText = "Username or Password is wrong .";
+                }
             }
             else
             {
-                loginResult.InnerText = "Username or Password is wrong .";
+                loginResult.InnerText = "You have to fill all the fields .";
             }
+        }
+
+        protected void RegisterButtonClick(object sender, EventArgs e)
+        {
+            Response.Redirect("register.aspx");
         }
     }
 }

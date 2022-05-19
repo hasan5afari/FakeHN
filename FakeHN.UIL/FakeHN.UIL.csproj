@@ -71,6 +71,7 @@
     <Content Include="createPost.aspx" />
     <Content Include="editPost.aspx" />
     <Content Include="index.aspx" />
+    <Content Include="register.aspx" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\jquery.js" />
     <Content Include="scripts\main.js" />
@@ -130,6 +131,13 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="register.aspx.cs">
+      <DependentUpon>register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="register.aspx.designer.cs">
+      <DependentUpon>register.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

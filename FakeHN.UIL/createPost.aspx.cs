@@ -15,12 +15,29 @@ namespace FakeHN.UIL
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            // load user
-            int userid = Convert.ToInt32(Request.Cookies["userid"].Value);
-            UserManager userManager = new UserManager();
-            user = userManager.getUser(userid);
+            // Check if user already logged in or not .
+            if (!Request.Cookies.AllKeys.Contains("userid"))
+            {
+                Response.Redirect("login.aspx");
+            }
+            else
+            {
+                // load user
+                int userid = Convert.ToInt32(Request.Cookies["userid"].Value);
+                UserManager userManager = new UserManager();
+                user = userManager.getUser(userid);
 
-            editUserINFO.InnerHtml = $"<a href='panel.aspx'>{user.name}  {user.family} ({ user.username})</a>";
+                createUserINFO.InnerHtml =
+                $@"<a href='panel.aspx'>{user.name}  {user.family} ({user.username})</a> <span>&nbsp;</span>";
+
+                Button logoutBtn = new Button();
+                logoutBtn.Text = "[ Logout ]";
+                logoutBtn.ID = $"logoutButton";
+                logoutBtn.Attributes["class"] = "btn bg-transparent";
+                logoutBtn.Click += new EventHandler((s, ee) => LogoutButtonClick(s, ee));
+
+                createUserINFO.Controls.Add(logoutBtn);
+            }
         }
 
         protected void CreatePostButtonClick(object sender, EventArgs e)
@@ -41,6 +58,19 @@ namespace FakeHN.UIL
             else
             {
                 createPostResult.InnerText = "Failed to edit the post !";
+            }
+        }
+
+        protected void LogoutButtonClick(object sender, EventArgs e)
+        {
+            //Check if Cookie exists.
+            if (Request.Cookies["userid"] != null)
+            {
+                HttpCookie nameCookie = Request.Cookies["userid"];
+                nameCookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(nameCookie);
+
+                Response.Redirect("index.aspx");
             }
         }
     }

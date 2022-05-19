@@ -11,43 +11,61 @@ namespace FakeHN.UIL
 {
 
 
-    public partial class createPost
+    public partial class register
     {
 
         /// <summary>
-        /// createUserINFO control.
+        /// registerForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl createUserINFO;
+        protected global::System.Web.UI.HtmlControls.HtmlForm registerForm;
 
         /// <summary>
-        /// createPostTextArea control.
+        /// registerFormName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTextArea createPostTextArea;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText registerFormName;
 
         /// <summary>
-        /// createPostButton control.
+        /// registerFormFamily control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button createPostButton;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText registerFormFamily;
 
         /// <summary>
-        /// createPostResult control.
+        /// registerFormUsername control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl createPostResult;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText registerFormUsername;
+
+        /// <summary>
+        /// registerFormPassword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputPassword registerFormPassword;
+
+        /// <summary>
+        /// registerResult control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl registerResult;
     }
 }

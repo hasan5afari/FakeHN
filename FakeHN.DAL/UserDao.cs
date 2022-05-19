@@ -41,6 +41,31 @@ namespace FakeHN.DAL
             return user;
         }
 
+        public bool usernameExists(string username)
+        {
+            // connect to SQL
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            // SQL command
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.CommandText = "Users_usernameExists";
+            SqlParameter usernameParameter = sqlCommand.Parameters.Add("@username", SqlDbType.Char);
+            usernameParameter.Value = username;
+
+            // SQL read data
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            reader.Read();
+
+            if (reader.HasRows)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public User isValidUser(string username, string password)
         {
             User user = null;
@@ -73,6 +98,35 @@ namespace FakeHN.DAL
             }
 
             return user;
+        }
+
+        public bool registerUser(User user)
+        {
+            // connect to SQL
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            // SQL command
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.CommandText = "Users_registerUser";
+            SqlParameter usernameParameter = sqlCommand.Parameters.Add("@username", SqlDbType.Char);
+            SqlParameter passwordParameter = sqlCommand.Parameters.Add("@password", SqlDbType.Char);
+            SqlParameter nameParameter = sqlCommand.Parameters.Add("@name", SqlDbType.Char);
+            SqlParameter familyParameter = sqlCommand.Parameters.Add("@family", SqlDbType.Char);
+            usernameParameter.Value = user.username;
+            passwordParameter.Value = user.password;
+            nameParameter.Value = user.name;
+            familyParameter.Value = user.family;
+
+            // SQL execute
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            reader.Read();
+
+            if (reader.RecordsAffected != 0)
+                return true;
+            else
+                return false;
         }
     }
 }

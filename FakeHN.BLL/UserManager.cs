@@ -12,44 +12,93 @@ namespace FakeHN.BLL
     {
         public User getUser(int userid)
         {
-            UserDao userDao = new UserDao();
-            return userDao.getUser(userid);
+            try
+            {
+                UserDao userDao = new UserDao();
+                return userDao.getUser(userid);
+            }
+            catch (DalException ex)
+            {
+                throw new BllException("BLL -> UserManager -> getUser() -> " + ex.Message_);
+            }
         }
 
         public List<User> getAllUsers()
         {
-            UserDao userDao = new UserDao();
-            return userDao.getAllUsers();
+            try
+            {
+                UserDao userDao = new UserDao();
+                return userDao.getAllUsers();
+            }
+            catch (DalException ex)
+            {
+                throw new BllException("BLL -> UserManager -> getAllUsers() -> " + ex.Message_);
+            }
         }
 
         public User isValidUser(string username, string password)
         {
-            UserDao userDao = new UserDao();
-            return userDao.isValidUser(username, password);
+            try
+            {
+                UserDao userDao = new UserDao();
+                return userDao.isValidUser(username, password);
+            }
+            catch (DalException ex)
+            {
+                throw new BllException("BLL -> UserManager -> isValidUser() -> " + ex.Message_);
+            }
         }
 
         public bool usernameExists(string username)
         {
-            UserDao userDao = new UserDao();
-            return userDao.usernameExists(username);
+            try
+            {
+                UserDao userDao = new UserDao();
+                return userDao.usernameExists(username);
+            }
+            catch (DalException ex)
+            {
+                throw new BllException("BLL -> UserManager -> usernameExists() -> " + ex.Message_);
+            }
         }
 
         public bool registerUser(User user)
         {
-            UserDao userDao = new UserDao();
-            return userDao.registerUser(user);
+            try
+            {
+                UserDao userDao = new UserDao();
+                return userDao.registerUser(user);
+            }
+            catch (DalException ex)
+            {
+                throw new BllException("BLL -> UserManager -> registerUser() -> " + ex.Message_);
+            }
         }
 
         public bool removeUser(int userid)
         {
-            UserDao userDao = new UserDao();
-            return userDao.removeUser(userid);
+            try
+            {
+                UserDao userDao = new UserDao();
+                return userDao.removeUser(userid);
+            }
+            catch (DalException ex)
+            {
+                throw new BllException("BLL -> UserManager -> removeUser() -> " + ex.Message_);
+            }
         }
 
         public bool updateUser(User user)
         {
-            UserDao userDao = new UserDao();
-            return userDao.updateUser(user);
+            try
+            {
+                UserDao userDao = new UserDao();
+                return userDao.updateUser(user);
+            }
+            catch (DalException ex)
+            {
+                throw new BllException("BLL -> UserManager -> updateUser() -> " + ex.Message_);
+            }
         }
     }
 }

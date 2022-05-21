@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommentDao.cs" />
+    <Compile Include="ExceptionDao.cs" />
     <Compile Include="PostDao.cs" />
     <Compile Include="UserDao.cs" />
   </ItemGroup>

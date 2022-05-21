@@ -15,35 +15,51 @@ namespace FakeHN.UIL
         private User user;
         protected void Page_Load(object sender, EventArgs e)
         {
-            // load editing user
-            int userid = Convert.ToInt32(Request.Cookies["editing_user"].Value);
-            UserManager userManager = new UserManager();
-            editing_user = userManager.getUser(userid);
-
-            if (!IsPostBack)
+            try
             {
-                editFormUsername.Value = editing_user.username;
-                editFormPassword.Value = editing_user.password;
-                editFormName.Value = editing_user.name;
-                editFormFamily.Value = editing_user.family;
+                // load editing user
+                int userid = Convert.ToInt32(Request.Cookies["editing_user"].Value);
+                UserManager userManager = new UserManager();
+                editing_user = userManager.getUser(userid);
+
+                if (!IsPostBack)
+                {
+                    editFormUsername.Value = editing_user.username;
+                    editFormPassword.Value = editing_user.password;
+                    editFormName.Value = editing_user.name;
+                    editFormFamily.Value = editing_user.family;
+                }
+            }
+            catch (BllException ex)
+            {
+                ExceptionManager exceptionManager = new ExceptionManager();
+                exceptionManager.saveException("editUser -> Page_Load() -> " + ex.Message_);
             }
         }
 
         protected void SaveEditsButtonClick(object sender, EventArgs e)
         {
-            UserManager userManager = new UserManager();
-            editing_user.username = editFormUsername.Value;
-            editing_user.password = editFormPassword.Value;
-            editing_user.name = editFormName.Value;
-            editing_user.family = editFormFamily.Value;
+            try
+            {
+                UserManager userManager = new UserManager();
+                editing_user.username = editFormUsername.Value;
+                editing_user.password = editFormPassword.Value;
+                editing_user.name = editFormName.Value;
+                editing_user.family = editFormFamily.Value;
 
-            if (userManager.updateUser(editing_user))
-            {
-                Response.Redirect("userManagementPanel.aspx");
+                if (userManager.updateUser(editing_user))
+                {
+                    Response.Redirect("userManagementPanel.aspx");
+                }
+                else
+                {
+                    editUserResult.InnerText = "Failed to edit the user !";
+                }
             }
-            else
+            catch (BllException ex)
             {
-                editUserResult.InnerText = "Failed to edit the user !";
+                ExceptionManager exceptionManager = new ExceptionManager();
+                exceptionManager.saveException("editUser -> SaveEditsButtonClick() -> " + ex.Message_);
             }
         }
     }

@@ -14,44 +14,95 @@ namespace FakeHN.DAL
         private const string connectionString = "Data Source=DESKTOP-5A7KHGH\\SQLSERVER2022;Initial Catalog=FakeHN;Integrated Security=true;";
         public List<Comment> getPostComments(int postid)
         {
-            List<Comment> comments = new List<Comment>();
-
-            // connect to SQL
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
-
-            // SQL command
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();
-            sqlCommand.CommandType = CommandType.StoredProcedure;
-            sqlCommand.CommandText = "Comments_getPostComments";
-            SqlParameter postidParameter = sqlCommand.Parameters.Add("@postid", SqlDbType.Int);
-            postidParameter.Value = postid.ToString();
-
-            // SQL read data
-            using (SqlDataReader reader = sqlCommand.ExecuteReader())
+            try
             {
-                while (reader.Read())
+                List<Comment> comments = new List<Comment>();
+
+                // connect to SQL
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                // SQL command
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "Comments_getPostComments";
+                SqlParameter postidParameter = sqlCommand.Parameters.Add("@postid", SqlDbType.Int);
+                postidParameter.Value = postid.ToString();
+
+                // SQL read data
+                using (SqlDataReader reader = sqlCommand.ExecuteReader())
                 {
-                    Comment comment = new Comment();
-                    comment.commentid = Convert.ToInt32(reader["commentid"]);
-                    comment.authorid = Convert.ToInt32(reader["authorid"]);
-                    comment.postid = Convert.ToInt32(reader["postid"]);
-                    comment.body = Convert.ToString(reader["body"]);
-                    comments.Add(comment);
+                    while (reader.Read())
+                    {
+                        Comment comment = new Comment();
+                        comment.commentid = Convert.ToInt32(reader["commentid"]);
+                        comment.authorid = Convert.ToInt32(reader["authorid"]);
+                        comment.postid = Convert.ToInt32(reader["postid"]);
+                        comment.body = Convert.ToString(reader["body"]);
+                        comments.Add(comment);
+                    }
                 }
+
+                sqlConnection.Close();
+
+                return comments;
             }
-
-            sqlConnection.Close();
-
-            return comments;
+            catch (Exception ex)
+            {
+                throw new DalException("DAL -> CommentDao -> getPostComments() -> " + ex.Message);
+            }
         }
 
         public bool removePostComments(int postid)
         {
-            bool operationCompleted = true;
+            try
+            {
+                bool operationCompleted = true;
 
-            List<Comment> postComments = getPostComments(postid);
-            if (postComments.Count > 0)
+                List<Comment> postComments = getPostComments(postid);
+                if (postComments.Count > 0)
+                {
+                    // connect to SQL
+                    SqlConnection sqlConnection = new SqlConnection(connectionString);
+                    sqlConnection.Open();
+
+                    // SQL command
+                    SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    SqlDataReader reader;
+
+                    for (int i = 0; i < postComments.Count; i++)
+                    {
+                        sqlCommand.CommandText = "Comments_removeComment";
+                        SqlParameter commentidParameter = sqlCommand.Parameters.Add("@commentid", SqlDbType.Int);
+                        commentidParameter.Value = postComments[i].commentid.ToString();
+
+                        reader = sqlCommand.ExecuteReader();
+                        reader.Read();
+
+                        if (reader.RecordsAffected <= 0)
+                        {
+                            operationCompleted = false;
+                            break;
+                        }
+
+                        reader.Close();
+                    }
+
+                    sqlConnection.Close();
+                }
+
+                return operationCompleted;
+            }
+            catch (Exception ex)
+            {
+                throw new DalException("DAL -> CommentDao -> removePostComments() -> " + ex.Message);
+            }
+        }
+
+        public bool addComment(Comment comment)
+        {
+            try
             {
                 // connect to SQL
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -60,79 +111,68 @@ namespace FakeHN.DAL
                 // SQL command
                 SqlCommand sqlCommand = sqlConnection.CreateCommand();
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                SqlDataReader reader;
+                sqlCommand.CommandText = "Comments_addComment";
+                SqlParameter authoridParameter = sqlCommand.Parameters.Add("@authorid", SqlDbType.Int);
+                SqlParameter postidParameter = sqlCommand.Parameters.Add("@postid", SqlDbType.Int);
+                SqlParameter bodyParameter = sqlCommand.Parameters.Add("@body", SqlDbType.Text);
+                authoridParameter.Value = comment.authorid.ToString();
+                postidParameter.Value = comment.postid.ToString();
+                bodyParameter.Value = comment.body;
 
-                for (int i = 0; i < postComments.Count; i++)
+                // SQL execute
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                reader.Read();
+
+                if (reader.RecordsAffected != 0)
                 {
-                    sqlCommand.CommandText = "Comments_removeComment";
-                    SqlParameter commentidParameter = sqlCommand.Parameters.Add("@commentid", SqlDbType.Int);
-                    commentidParameter.Value = postComments[i].commentid.ToString();
-
-                    reader = sqlCommand.ExecuteReader();
-                    reader.Read();
-
-                    if (reader.RecordsAffected <= 0)
-                    {
-                        operationCompleted = false;
-                        break;
-                    }
-
-                    reader.Close();
+                    sqlConnection.Close();
+                    return true;
                 }
-
-                sqlConnection.Close();
+                else
+                {
+                    sqlConnection.Close();
+                    return false;
+                }
             }
-
-            return operationCompleted;
-        }
-
-        public bool addComment(Comment comment)
-        {
-            // connect to SQL
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
-
-            // SQL command
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();
-            sqlCommand.CommandType = CommandType.StoredProcedure;
-            sqlCommand.CommandText = "Comments_addComment";
-            SqlParameter authoridParameter = sqlCommand.Parameters.Add("@authorid", SqlDbType.Int);
-            SqlParameter postidParameter = sqlCommand.Parameters.Add("@postid", SqlDbType.Int);
-            SqlParameter bodyParameter = sqlCommand.Parameters.Add("@body", SqlDbType.Text);
-            authoridParameter.Value = comment.authorid.ToString();
-            postidParameter.Value = comment.postid.ToString();
-            bodyParameter.Value = comment.body;
-
-            // SQL execute
-            SqlDataReader reader = sqlCommand.ExecuteReader();
-            reader.Read();
-
-            if (reader.RecordsAffected != 0)
-                return true;
-            else
-                return false;
+            catch (Exception ex)
+            {
+                throw new DalException("DAL -> CommentDao -> addComment() -> " + ex.Message);
+            }
         }
 
         public bool removeUserComments(int userid)
         {
-            // connect to SQL
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
+            try
+            {
+                // connect to SQL
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
 
-            // SQL command
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();
-            sqlCommand.CommandType = CommandType.StoredProcedure;
-            sqlCommand.CommandText = "Comments_removeUserComments";
-            SqlParameter authoridParameter = sqlCommand.Parameters.Add("@authorid", SqlDbType.Int);
-            authoridParameter.Value = userid.ToString();
+                // SQL command
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.CommandText = "Comments_removeUserComments";
+                SqlParameter authoridParameter = sqlCommand.Parameters.Add("@authorid", SqlDbType.Int);
+                authoridParameter.Value = userid.ToString();
 
-            SqlDataReader reader = sqlCommand.ExecuteReader();
-            reader.Read();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                reader.Read();
 
-            if (reader.RecordsAffected != 0)
-                return true;
-            else
-                return false;
+                if (reader.RecordsAffected != 0)
+                {
+                    sqlConnection.Close();
+                    return true;
+                }
+                else
+                {
+                    sqlConnection.Close();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new DalException("DAL -> CommentDao -> removeUserComments() -> " + ex.Message);
+            }
         }
     }
 }

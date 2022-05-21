@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommentManager.cs" />
+    <Compile Include="ExceptionManager.cs" />
     <Compile Include="PostManager.cs" />
     <Compile Include="UserManager.cs" />
   </ItemGroup>

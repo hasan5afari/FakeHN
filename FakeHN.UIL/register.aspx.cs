@@ -18,42 +18,50 @@ namespace FakeHN.UIL
 
         protected void RegisterButtonClick(object sender, EventArgs e)
         {
-            if (!(registerFormName.Value == "" || registerFormFamily.Value == "" ||
-                  registerFormUsername.Value == ""   || registerFormPassword.Value == ""))
+            try
             {
-                UserManager userManager = new UserManager();
-                string username = registerFormUsername.Value;
-                string password = registerFormPassword.Value;
-                string name = registerFormName.Value;
-                string family = registerFormFamily.Value;
-
-                if (!userManager.usernameExists(username))
+                if (!(registerFormName.Value == "" || registerFormFamily.Value == "" ||
+                  registerFormUsername.Value == "" || registerFormPassword.Value == ""))
                 {
-                    if (Utilities.isValidName(name) && Utilities.isValidName(family) && Utilities.isValidName(password) && Utilities.isValidName(username))
+                    UserManager userManager = new UserManager();
+                    string username = registerFormUsername.Value;
+                    string password = registerFormPassword.Value;
+                    string name = registerFormName.Value;
+                    string family = registerFormFamily.Value;
+
+                    if (!userManager.usernameExists(username))
                     {
-                        User user = new User();
-                        user.username = username.Trim();
-                        user.password = password.Trim();
-                        user.name = name.Trim();
-                        user.family = family.Trim();
-                        if (userManager.registerUser(user))
-                            registerResult.InnerText = "Successfully registerd. now you can log in to system";
+                        if (Utilities.isValidName(name) && Utilities.isValidName(family) && Utilities.isValidName(password) && Utilities.isValidName(username))
+                        {
+                            User user = new User();
+                            user.username = username.Trim();
+                            user.password = password.Trim();
+                            user.name = name.Trim();
+                            user.family = family.Trim();
+                            if (userManager.registerUser(user))
+                                registerResult.InnerText = "Successfully registerd. now you can log in to system";
+                            else
+                                registerResult.InnerText = "Registration failed . try again later .";
+                        }
                         else
-                            registerResult.InnerText = "Registration failed . try again later .";
+                        {
+                            registerResult.InnerText = "Invalid Name, Family, Username or Password";
+                        }
                     }
                     else
                     {
-                        registerResult.InnerText = "Invalid Name, Family, Username or Password";
+                        registerResult.InnerText = "Username already exists .";
                     }
                 }
                 else
                 {
-                    registerResult.InnerText = "Username already exists .";
+                    registerResult.InnerText = "You have to fill all fields .";
                 }
             }
-            else
+            catch (BllException ex)
             {
-                registerResult.InnerText = "You have to fill all fields .";
+                ExceptionManager exceptionManager = new ExceptionManager();
+                exceptionManager.saveException("register -> RegisterButtonClick() -> " + ex.Message_);
             }
         }
     }

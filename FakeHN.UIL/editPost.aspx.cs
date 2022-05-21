@@ -15,65 +15,89 @@ namespace FakeHN.UIL
         private User user;
         protected void Page_Load(object sender, EventArgs e)
         {
-            // load post
-            int postid = Convert.ToInt32(Request.Cookies["postid"].Value);
-            PostManager postManager = new PostManager();
-            post = postManager.getPost(postid);
-
-            if (!IsPostBack)
+            try
             {
-                editPostTextArea.Value = post.body;
+                // load post
+                int postid = Convert.ToInt32(Request.Cookies["postid"].Value);
+                PostManager postManager = new PostManager();
+                post = postManager.getPost(postid);
+
+                if (!IsPostBack)
+                {
+                    editPostTextArea.Value = post.body;
+                }
+
+                // Check if user already logged in or not .
+                if (!Request.Cookies.AllKeys.Contains("userid"))
+                {
+                    Response.Redirect("login.aspx");
+                }
+                else
+                {
+                    // load user
+                    int userid = Convert.ToInt32(Request.Cookies["userid"].Value);
+                    UserManager userManager = new UserManager();
+                    user = userManager.getUser(userid);
+
+                    editPostUserINFO.InnerHtml =
+                    $@"<a href='panel.aspx'>{user.name}  {user.family} ({user.username})</a> <span>&nbsp;</span>";
+
+                    Button logoutBtn = new Button();
+                    logoutBtn.Text = "[ Logout ]";
+                    logoutBtn.ID = $"logoutButton";
+                    logoutBtn.Attributes["class"] = "btn bg-transparent";
+                    logoutBtn.Click += new EventHandler((s, ee) => LogoutButtonClick(s, ee));
+
+                    editPostUserINFO.Controls.Add(logoutBtn);
+                }
             }
-
-            // Check if user already logged in or not .
-            if (!Request.Cookies.AllKeys.Contains("userid"))
+            catch (BllException ex)
             {
-                Response.Redirect("login.aspx");
-            }
-            else
-            {
-                // load user
-                int userid = Convert.ToInt32(Request.Cookies["userid"].Value);
-                UserManager userManager = new UserManager();
-                user = userManager.getUser(userid);
-
-                editPostUserINFO.InnerHtml =
-                $@"<a href='panel.aspx'>{user.name}  {user.family} ({user.username})</a> <span>&nbsp;</span>";
-
-                Button logoutBtn = new Button();
-                logoutBtn.Text = "[ Logout ]";
-                logoutBtn.ID = $"logoutButton";
-                logoutBtn.Attributes["class"] = "btn bg-transparent";
-                logoutBtn.Click += new EventHandler((s, ee) => LogoutButtonClick(s, ee));
-
-                editPostUserINFO.Controls.Add(logoutBtn);
+                ExceptionManager exceptionManager = new ExceptionManager();
+                exceptionManager.saveException("editPost -> Page_Load() -> " + ex.Message_);
             }
         }
 
         protected void SaveEditsButtonClick(object sender, EventArgs e)
         {
-            PostManager postManager = new PostManager();
-            post.body = editPostTextArea.Value;
-            if (postManager.updatePost(post))
+            try
             {
-                Response.Redirect("panel.aspx");
+                PostManager postManager = new PostManager();
+                post.body = editPostTextArea.Value;
+                if (postManager.updatePost(post))
+                {
+                    Response.Redirect("panel.aspx");
+                }
+                else
+                {
+                    editPostResult.InnerText = "Failed to edit the post !";
+                }
             }
-            else
+            catch (BllException ex)
             {
-                editPostResult.InnerText = "Failed to edit the post !";
+                ExceptionManager exceptionManager = new ExceptionManager();
+                exceptionManager.saveException("editPost -> SaveEditsButtonClick() -> " + ex.Message_);
             }
         }
 
         protected void LogoutButtonClick(object sender, EventArgs e)
         {
-            //Check if Cookie exists.
-            if (Request.Cookies["userid"] != null)
+            try
             {
-                HttpCookie nameCookie = Request.Cookies["userid"];
-                nameCookie.Expires = DateTime.Now.AddDays(-1);
-                Response.Cookies.Add(nameCookie);
+                //Check if Cookie exists.
+                if (Request.Cookies["userid"] != null)
+                {
+                    HttpCookie nameCookie = Request.Cookies["userid"];
+                    nameCookie.Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies.Add(nameCookie);
 
-                Response.Redirect("index.aspx");
+                    Response.Redirect("index.aspx");
+                }
+            }
+            catch (BllException ex)
+            {
+                ExceptionManager exceptionManager = new ExceptionManager();
+                exceptionManager.saveException("editPost -> LogoutButtonClick() -> " + ex.Message_);
             }
         }
     }

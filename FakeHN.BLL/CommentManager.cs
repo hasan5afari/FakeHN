@@ -12,26 +12,54 @@ namespace FakeHN.BLL
     {
         public List<Comment> getPostComments(int postid)
         {
-            CommentDao userDao = new CommentDao();
-            return userDao.getPostComments(postid);
+            try
+            {
+                CommentDao userDao = new CommentDao();
+                return userDao.getPostComments(postid);
+            }
+            catch (DalException ex)
+            {
+                throw new BllException("BLL -> CommentManager -> getPostComments() -> " + ex.Message_);
+            }
         }
 
         public bool removePostComments(int postid)
         {
-            CommentDao commentDao = new CommentDao();
-            return commentDao.removePostComments(postid);
+            try
+            { 
+                CommentDao commentDao = new CommentDao();
+                return commentDao.removePostComments(postid);
+            }
+            catch (DalException ex)
+            {
+                throw new BllException("BLL -> CommentManager -> removePostComments() -> " + ex.Message_);
+            }
         }
 
         public bool addComment(Comment comment)
         {
-            CommentDao commentDao = new CommentDao();
-            return commentDao.addComment(comment);
+            try
+            {
+                CommentDao commentDao = new CommentDao();
+                return commentDao.addComment(comment);
+            }
+            catch (DalException ex)
+            {
+                throw new BllException("BLL -> CommentManager -> addComment() -> " + ex.Message_);
+            }
         }
 
         public bool removeUserComments(int userid)
         {
-            CommentDao commentDao = new CommentDao();
-            return commentDao.removeUserComments(userid);
+            try
+            {
+                CommentDao commentDao = new CommentDao();
+                return commentDao.removeUserComments(userid);
+            }
+            catch (DalException ex)
+            {
+                throw new BllException("BLL -> CommentManager -> removeUserComments() -> " + ex.Message_);
+            }
         }
     }
 }

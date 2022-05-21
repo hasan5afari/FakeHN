@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comment.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="Post.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Utilities.cs" />

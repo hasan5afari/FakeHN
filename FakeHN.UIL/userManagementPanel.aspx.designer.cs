@@ -11,34 +11,43 @@ namespace FakeHN.UIL
 {
 
 
-    public partial class edit
+    public partial class userManagementPanel
     {
 
         /// <summary>
-        /// editPostUserINFO control.
+        /// panelUserINFO control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl editPostUserINFO;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl panelUserINFO;
 
         /// <summary>
-        /// editPostTextArea control.
+        /// panelContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTextArea editPostTextArea;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl panelContent;
 
         /// <summary>
-        /// editPostResult control.
+        /// newUserButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl editPostResult;
+        protected global::System.Web.UI.WebControls.Button newUserButton;
+
+        /// <summary>
+        /// panelUserManagementResult control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl panelUserManagementResult;
     }
 }

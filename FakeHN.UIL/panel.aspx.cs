@@ -37,6 +37,11 @@ namespace FakeHN.UIL
                 logoutBtn.Attributes["class"] = "btn bg-transparent";
                 logoutBtn.Click += new EventHandler((s, ee) => LogoutButtonClick(s, ee));
 
+                if (user.username.Trim() == "admin")
+                {
+                    userManagementButton.Visible = true;
+                }
+
                 panelUserINFO.Controls.Add(logoutBtn);
             }
 
@@ -124,6 +129,11 @@ namespace FakeHN.UIL
         protected void NewPostButtonClick(object sender, EventArgs e)
         {
             Response.Redirect("createPost.aspx");
+        }
+
+        protected void UserManagementButtonClick(object sender, EventArgs e)
+        {
+            Response.Redirect("userManagementPanel.aspx");
         }
 
         protected void LogoutButtonClick(object sender, EventArgs e)

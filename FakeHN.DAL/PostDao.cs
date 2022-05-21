@@ -315,5 +315,27 @@ namespace FakeHN.DAL
             else
                 return false;
         }
+
+        public bool removeUserVotes(int userid)
+        {
+            // connect to SQL
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            // SQL command
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.CommandText = "Votes_removeUserVotes";
+            SqlParameter authoridParameter = sqlCommand.Parameters.Add("@authorid", SqlDbType.Int);
+            authoridParameter.Value = userid.ToString();
+
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            reader.Read();
+
+            if (reader.RecordsAffected != 0)
+                return true;
+            else
+                return false;
+        }
     }
 }

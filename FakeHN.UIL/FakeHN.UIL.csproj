@@ -70,6 +70,7 @@
     <Content Include="about.aspx" />
     <Content Include="createPost.aspx" />
     <Content Include="editPost.aspx" />
+    <Content Include="editUser.aspx" />
     <Content Include="index.aspx" />
     <Content Include="register.aspx" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -81,6 +82,7 @@
     <Content Include="style\login.css" />
     <Content Include="style\panel.css" />
     <Content Include="style\style.css" />
+    <Content Include="userManagementPanel.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +106,13 @@
     </Compile>
     <Compile Include="editPost.aspx.designer.cs">
       <DependentUpon>editPost.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="editUser.aspx.cs">
+      <DependentUpon>editUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="editUser.aspx.designer.cs">
+      <DependentUpon>editUser.aspx</DependentUpon>
     </Compile>
     <Compile Include="index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
@@ -138,6 +147,13 @@
     </Compile>
     <Compile Include="register.aspx.designer.cs">
       <DependentUpon>register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="userManagementPanel.aspx.cs">
+      <DependentUpon>userManagementPanel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="userManagementPanel.aspx.designer.cs">
+      <DependentUpon>userManagementPanel.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

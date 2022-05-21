@@ -40,7 +40,7 @@
                     <a href="About.aspx" class="nav-link">About</a>
                   </li>
                 </ul>
-                <div id="editUserINFO" runat="server" class="container d-inline-flex align-items-center justify-content-center justify-content-sm-end"></div>
+                <div id="editPostUserINFO" runat="server" class="container d-inline-flex align-items-center justify-content-center justify-content-sm-end"></div>
               </div>
             </div>
           </nav>

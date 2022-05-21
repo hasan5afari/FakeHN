@@ -37,7 +37,7 @@ namespace FakeHN.UIL
                 UserManager userManager = new UserManager();
                 user = userManager.getUser(userid);
 
-                editUserINFO.InnerHtml =
+                editPostUserINFO.InnerHtml =
                 $@"<a href='panel.aspx'>{user.name}  {user.family} ({user.username})</a> <span>&nbsp;</span>";
 
                 Button logoutBtn = new Button();
@@ -46,7 +46,7 @@ namespace FakeHN.UIL
                 logoutBtn.Attributes["class"] = "btn bg-transparent";
                 logoutBtn.Click += new EventHandler((s, ee) => LogoutButtonClick(s, ee));
 
-                editUserINFO.Controls.Add(logoutBtn);
+                editPostUserINFO.Controls.Add(logoutBtn);
             }
         }
 

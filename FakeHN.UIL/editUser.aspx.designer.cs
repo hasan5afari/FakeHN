@@ -11,52 +11,70 @@ namespace FakeHN.UIL
 {
 
 
-    public partial class Panel
+    public partial class editUser
     {
 
         /// <summary>
-        /// panelUserINFO control.
+        /// editUserUserINFO control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl panelUserINFO;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl editUserUserINFO;
 
         /// <summary>
-        /// panelContent control.
+        /// editUserForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl panelContent;
+        protected global::System.Web.UI.HtmlControls.HtmlForm editUserForm;
 
         /// <summary>
-        /// newPostButton control.
+        /// editFormName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button newPostButton;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText editFormName;
 
         /// <summary>
-        /// userManagementButton control.
+        /// editFormFamily control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button userManagementButton;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText editFormFamily;
 
         /// <summary>
-        /// panelPostsResult control.
+        /// editFormUsername control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl panelPostsResult;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText editFormUsername;
+
+        /// <summary>
+        /// editFormPassword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText editFormPassword;
+
+        /// <summary>
+        /// editUserResult control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl editUserResult;
     }
 }

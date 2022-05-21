@@ -32,10 +32,10 @@ namespace FakeHN.UIL
                     if (Utilities.isValidName(name) && Utilities.isValidName(family) && Utilities.isValidName(password) && Utilities.isValidName(username))
                     {
                         User user = new User();
-                        user.username = username;
-                        user.password = password;
-                        user.name = name;
-                        user.family = family;
+                        user.username = username.Trim();
+                        user.password = password.Trim();
+                        user.name = name.Trim();
+                        user.family = family.Trim();
                         if (userManager.registerUser(user))
                             registerResult.InnerText = "Successfully registerd. now you can log in to system";
                         else

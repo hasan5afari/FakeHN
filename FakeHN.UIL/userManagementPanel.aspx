@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="panel.aspx.cs" Inherits="FakeHN.UIL.Panel" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="userManagementPanel.aspx.cs" Inherits="FakeHN.UIL.userManagementPanel" %>
 
 <!DOCTYPE html>
 
@@ -7,7 +7,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" constent="width=device-width, initial-scale=1.0" />
-    <title>Panel</title>
+    <title>User Management Panel</title>
 
     <!-- stylesheets -->
     <link rel="stylesheet" href="style/style.css" />
@@ -19,7 +19,6 @@
     />
 </head>
 <body>
-
     <form runat="server">
         <!-- header section -->
         <header>
@@ -49,7 +48,7 @@
 
         <main>
             <div class="card text-center mx-5 login-card my-5">
-                <div class="card-header">Posts</div>
+                <div class="card-header">Users</div>
                 <div class="card-body">
                         <div class="container-fluid d-flex justify-content-center align-align-items-center mt-3 mb-3 w-100 h-100">
                             <table class="table table-striped">
@@ -57,10 +56,9 @@
                             </table>
                         </div>
                         <div class="container-fluid d-flex justify-content-center align-align-items-center w-100 h-100 mb-3">
-                        <asp:Button id="newPostButton" class="btn btn-primary" Text="New Post" runat="server" OnClick="NewPostButtonClick" />
-                        <asp:Button id="userManagementButton" class="btn btn-primary mx-2" Text="Manage Users" runat="server" OnClick="UserManagementButtonClick" Visible="false"/>
+                        <asp:Button id="newUserButton" class="btn btn-primary" Text="New User" runat="server" OnClick="NewUserButtonClick" />
                         </div>
-                        <div id="panelPostsResult" class="card-footer text-muted" runat="server"></div>
+                        <div id="panelUserManagementResult" class="card-footer text-muted" runat="server"></div>
                 </div>
             </div>
         </main>

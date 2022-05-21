@@ -112,5 +112,27 @@ namespace FakeHN.DAL
             else
                 return false;
         }
+
+        public bool removeUserComments(int userid)
+        {
+            // connect to SQL
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            // SQL command
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.CommandText = "Comments_removeUserComments";
+            SqlParameter authoridParameter = sqlCommand.Parameters.Add("@authorid", SqlDbType.Int);
+            authoridParameter.Value = userid.ToString();
+
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            reader.Read();
+
+            if (reader.RecordsAffected != 0)
+                return true;
+            else
+                return false;
+        }
     }
 }

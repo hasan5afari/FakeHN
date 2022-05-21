@@ -28,6 +28,7 @@ namespace FakeHN.BLL
             return postDao.getUserPosts(userid);
         }
 
+
         public bool removePost(int postid)
         {
             PostDao postDao = new PostDao();
@@ -68,6 +69,12 @@ namespace FakeHN.BLL
         {
             PostDao postDao = new PostDao();
             return postDao.userVoted(post, user);
+        }
+
+        public bool removeUserVotes(int userid)
+        {
+            PostDao postDao = new PostDao();
+            return postDao.removeUserVotes(userid);
         }
     }
 }

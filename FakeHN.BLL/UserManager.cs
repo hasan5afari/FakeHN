@@ -16,6 +16,12 @@ namespace FakeHN.BLL
             return userDao.getUser(userid);
         }
 
+        public List<User> getAllUsers()
+        {
+            UserDao userDao = new UserDao();
+            return userDao.getAllUsers();
+        }
+
         public User isValidUser(string username, string password)
         {
             UserDao userDao = new UserDao();
@@ -32,6 +38,18 @@ namespace FakeHN.BLL
         {
             UserDao userDao = new UserDao();
             return userDao.registerUser(user);
+        }
+
+        public bool removeUser(int userid)
+        {
+            UserDao userDao = new UserDao();
+            return userDao.removeUser(userid);
+        }
+
+        public bool updateUser(User user)
+        {
+            UserDao userDao = new UserDao();
+            return userDao.updateUser(user);
         }
     }
 }

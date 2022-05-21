@@ -111,7 +111,7 @@ $(document).ready(function () {
                     dataType: "json",
                     data: JSON.stringify({ postid: postid, increase: true }),
                     success: function (data) {
-                        alert('Voted !');
+                        console.log('Upvote done !');
                     }
                 });
 
@@ -129,7 +129,7 @@ $(document).ready(function () {
                     dataType: "json",
                     data: JSON.stringify({ postid: postid, increase: false }),
                     success: function (data) {
-                        alert('Voted !');
+                        console.log('Downvote done !');
                     }
                 });
             }

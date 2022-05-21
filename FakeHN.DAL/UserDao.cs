@@ -41,6 +41,39 @@ namespace FakeHN.DAL
             return user;
         }
 
+        public List<User> getAllUsers()
+        {
+            List<User> users = new List<User>();
+
+            // connect to SQL
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            // SQL command
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.CommandText = "Users_getAllUsers";
+
+            // SQL read data
+            using (SqlDataReader reader = sqlCommand.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    User user = new User();
+                    user.userid = Convert.ToInt32(reader["userid"]);
+                    user.username = Convert.ToString(reader["username"]);
+                    user.password = Convert.ToString(reader["password"]);
+                    user.name = Convert.ToString(reader["name"]);
+                    user.family = Convert.ToString(reader["family"]);
+                    users.Add(user);
+                }
+            }
+
+            sqlConnection.Close();
+
+            return users;
+        }
+
         public bool usernameExists(string username)
         {
             // connect to SQL
@@ -127,6 +160,71 @@ namespace FakeHN.DAL
                 return true;
             else
                 return false;
+        }
+
+        public bool removeUser(int userid)
+        {
+            bool operationCompleted = true;
+
+            // connect to SQL
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            // SQL command
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.CommandText = "Users_removeUser";
+            SqlParameter postidParameter = sqlCommand.Parameters.Add("@userid", SqlDbType.Int);
+            postidParameter.Value = userid.ToString();
+
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            reader.Read();
+
+            if (reader.RecordsAffected == 0)
+            {
+                operationCompleted = false;
+            }
+
+            sqlConnection.Close();
+
+            return operationCompleted;
+        }
+
+        public bool updateUser(User user)
+        {
+            bool operationCompleted = true;
+
+            // connect to SQL
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            // SQL command
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.CommandText = "Users_updateUser";
+            SqlParameter useridParameter = sqlCommand.Parameters.Add("@userid", SqlDbType.Int);
+            SqlParameter usernameParameter = sqlCommand.Parameters.Add("@username", SqlDbType.Char);
+            SqlParameter passwordParameter = sqlCommand.Parameters.Add("@password", SqlDbType.Char);
+            SqlParameter nameParameter = sqlCommand.Parameters.Add("@name", SqlDbType.Char);
+            SqlParameter familyParameter = sqlCommand.Parameters.Add("@family", SqlDbType.Char);
+            useridParameter.Value = user.userid.ToString().Trim();
+            usernameParameter.Value = user.username.ToString().Trim();
+            passwordParameter.Value = user.password.ToString().Trim();
+            nameParameter.Value = user.name.ToString().Trim();
+            familyParameter.Value = user.family.ToString().Trim();
+
+            // SQL read data
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            reader.Read();
+
+            if (reader.RecordsAffected == 0)
+            {
+                operationCompleted = false;
+            }
+
+            sqlConnection.Close();
+
+            return operationCompleted;
         }
     }
 }

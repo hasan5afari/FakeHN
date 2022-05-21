@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="FakeHN.UIL.Login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="editUser.aspx.cs" Inherits="FakeHN.UIL.editUser" %>
 
 <!DOCTYPE html>
 
@@ -7,7 +7,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Edit User</title>
 
     <!-- stylesheets -->
     <link rel="stylesheet" href="style/style.css" />
@@ -19,7 +19,6 @@
     />
 </head>
 <body>
-
 
     <!-- header section -->
     <header>
@@ -40,6 +39,7 @@
                 <a href="About.aspx" class="nav-link">About</a>
                 </li>
             </ul>
+                <div id="editUserUserINFO" runat="server" class="container d-inline-flex align-items-center justify-content-center justify-content-sm-end"></div>
             </div>
         </div>
         </nav>
@@ -49,27 +49,31 @@
     <main>
         <div class="card text-center mx-5 login-card my-5">
             <div class="card-header">
-            Login
+            Edit User INFO
             </div>
             <div class="card-body">
-                <div class="container-fluid d-flex justify-content-center align-align-items-center my-5 w-100 h-100">
-                    <form id="loginForm" runat="server">
+                <div class="container-fluid d-flex flex-column justify-content-center align-align-items-center my-5 w-25 h-100">
+                <form id="editUserForm" runat="server">
                         <div class="form-group mb-2">
-                        <label for="exampleInputEmail1">Username</label>
-                        <input type="text" class="form-control" id="loginFormUsername" placeholder="Username" runat="server"/>
+                        <label for="editFormName">Name</label>
+                        <input type="text" class="form-control" id="editFormName" runat="server"/>
                         </div>
                         <div class="form-group mb-2">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input type="password" class="form-control" id="loginFormPassword" placeholder="Password" runat="server"/>
+                        <label for="editFormFamily">Family</label>
+                        <input type="text" class="form-control" id="editFormFamily" runat="server"/>
                         </div>
-                        <asp:Button type="submit" class="btn btn-primary mb-2" runat="server" OnClick="LoginButtonClick" Text="Login"></asp:Button>
-                        <div class="d-block">
-                            <small>Haven't you registered before ?</small>
-                            <asp:Button ID="loginFormRegisterButton" type="submit" class="btn bg-transparent text-decoration-underline text-dark" runat="server" OnClick="RegisterButtonClick" Text="Register"></asp:Button>
+                        <div class="form-group mb-2">
+                        <label for="editFormUsername">Username</label>
+                        <input type="text" class="form-control" id="editFormUsername" runat="server"/>
                         </div>
-                    </form>
+                        <div class="form-group mb-2">
+                        <label for="editFormPassword">Password</label>
+                        <input type="text" class="form-control" id="editFormPassword" runat="server"/>
+                        </div>
+                        <asp:Button type="submit" class="btn btn-primary mt-2" runat="server" OnClick="SaveEditsButtonClick" Text="Save"></asp:Button>
+                </form>
                     </div>
-                    <div id="loginResult" class="card-footer text-muted" runat="server">
+                    <div id="editUserResult" class="card-footer text-muted" runat="server">
                     </div>
             </div>
         </div>
@@ -150,7 +154,6 @@
         <a class="text-reset fw-bold" href="https://www.normalperson.ir/">normalperson.ir</a>
         </div>
     </footer>
-
 
     <!-- scripts -->
     <script src="scripts/jquery.js"></script>

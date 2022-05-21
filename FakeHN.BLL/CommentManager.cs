@@ -21,5 +21,11 @@ namespace FakeHN.BLL
             CommentDao commentDao = new CommentDao();
             return commentDao.removePostComments(postid);
         }
+
+        public bool addComment(Comment comment)
+        {
+            CommentDao commentDao = new CommentDao();
+            return commentDao.addComment(comment);
+        }
     }
 }

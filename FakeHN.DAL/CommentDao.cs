@@ -85,5 +85,32 @@ namespace FakeHN.DAL
 
             return operationCompleted;
         }
+
+        public bool addComment(Comment comment)
+        {
+            // connect to SQL
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            // SQL command
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.CommandText = "Comments_addComment";
+            SqlParameter authoridParameter = sqlCommand.Parameters.Add("@authorid", SqlDbType.Int);
+            SqlParameter postidParameter = sqlCommand.Parameters.Add("@postid", SqlDbType.Int);
+            SqlParameter bodyParameter = sqlCommand.Parameters.Add("@body", SqlDbType.Text);
+            authoridParameter.Value = comment.authorid.ToString();
+            postidParameter.Value = comment.postid.ToString();
+            bodyParameter.Value = comment.body;
+
+            // SQL execute
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            reader.Read();
+
+            if (reader.RecordsAffected != 0)
+                return true;
+            else
+                return false;
+        }
     }
 }

@@ -69,23 +69,70 @@ $(document).ready(function () {
 
     });
 
-    // upvote click update color and value
-    $('.upvote').click(function () {
-        let icon = $(this).find('#upvoteIcon');
-        let txt = $(this).find('#upvoteText');
-        let value = parseInt(txt.text());
+    // comment ajax
+    $('[id^="commentButton"]').each(function () {
+        $(this).click(function () {
+            let postid = $(this).attr('id').substring(13);
+            let comment = $(`[id^="commentInput${postid}"`).val().trim();
+            $.ajax({
+                type: 'POST',
+                url: '../index.aspx/UpdateComments',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ postid: postid , comment: comment }),
+                success: function (data) {
+                    let commentSection = $(`[id^="allComments${postid}"`);
+                    commentSection.append(data.d);
+                }
+            });
+        });
+    });
 
-        if ($(this).find('#upvoteIcon').attr('fill') === 'currentColor') {
-            icon.attr('fill', 'orange');
-            txt.css('color', 'orange');
-            value += 1;
-            txt.text(`${value}`)
-        }
-        else {
-            icon.attr('fill', 'currentColor');
-            txt.css('color', '');
-            value -= 1;
-            txt.text(`${value}`)
-        }
+
+    // upvote ajax
+    $('.upvote').each(function () {
+        $(this).click(function () {
+
+            let postid = $(this).attr('id').substring(9);
+            let icon = $(this).find('#upvoteIcon');
+            let txt = $(this).find('#upvoteText');
+            let value = parseInt(txt.text());
+
+            if ($(this).find('#upvoteIcon').attr('fill') === 'currentColor') {
+                icon.attr('fill', 'orange');
+                txt.css('color', 'orange');
+                value += 1;
+                txt.text(`${value}`)
+
+                $.ajax({
+                    type: 'POST',
+                    url: '../index.aspx/UpdateVotes',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify({ postid: postid, increase: true }),
+                    success: function (data) {
+                        alert('Voted !');
+                    }
+                });
+
+            }
+            else {
+                icon.attr('fill', 'currentColor');
+                txt.css('color', '');
+                value -= 1;
+                txt.text(`${value}`)
+
+                $.ajax({
+                    type: 'POST',
+                    url: '../index.aspx/UpdateVotes',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify({ postid: postid, increase: false }),
+                    success: function (data) {
+                        alert('Voted !');
+                    }
+                });
+            }
+        })
     });
 });

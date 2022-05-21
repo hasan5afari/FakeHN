@@ -51,5 +51,23 @@ namespace FakeHN.BLL
             PostDao postDao = new PostDao();
             return postDao.savePost(post);
         }
+
+        public bool addVote(int postid, int authorid)
+        {
+            PostDao postDao = new PostDao();
+            return postDao.addVote(postid, authorid);
+        }
+
+        public bool removeVote(int postid, int authorid)
+        {
+            PostDao postDao = new PostDao();
+            return postDao.removeVote(postid, authorid);
+        }
+
+        public bool userVoted(Post post, User user)
+        {
+            PostDao postDao = new PostDao();
+            return postDao.userVoted(post, user);
+        }
     }
 }

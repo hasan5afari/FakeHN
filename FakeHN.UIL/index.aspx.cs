@@ -14,6 +14,8 @@ namespace FakeHN.UIL
     public partial class FakeHN : System.Web.UI.Page
     {
         private User user;
+        private static int userid;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             // Check if user already logged in or not .
@@ -24,7 +26,7 @@ namespace FakeHN.UIL
             else
             {
                 // load user
-                int userid = Convert.ToInt32(Request.Cookies["userid"].Value);
+                userid = Convert.ToInt32(Request.Cookies["userid"].Value);
                 UserManager userManager = new UserManager();
                 user = userManager.getUser(userid);
 
@@ -114,7 +116,7 @@ namespace FakeHN.UIL
                       <!-- Like and comments -->
                         {PostCommentsAndLikes(ref post, ref i)}
                       <!-- Footer -->
-                        {TimeLineFooter(ref i)}
+                        {TimeLineFooter(ref i, post.postid)}
                    </div>
                 ";
 
@@ -140,6 +142,10 @@ namespace FakeHN.UIL
 
         private string PostBody(ref Post post, ref User user)
         {
+            PostManager postManager = new PostManager();
+            UserManager userManager = new UserManager();
+            User currentUser = userManager.getUser(userid);
+            bool userVoted = postManager.userVoted(post, currentUser);
             return
             $@"
                 <div class='col-10 col-md-8'>
@@ -151,13 +157,13 @@ namespace FakeHN.UIL
                         </svg>
                     <span class='username ps-2 h6 text-black'>{user.name + ' ' + user.family}</span>
                     <span class='pull-right text-muted'>
-                    <div class='row upvote'>
+                    <div id='postVotes{post.postid}' class='row upvote'>
                         <div class='col-1'>
-                        <svg id = 'upvoteIcon' xmlns='http://www.w3.org/2000/svg' width='28' height='28' fill='currentColor' class='bi bi-arrow-up-short' viewBox='0 0 16 16'>
+                        <svg id = 'upvoteIcon' xmlns='http://www.w3.org/2000/svg' width='28' height='28' fill='{((userVoted) ? "orange" : "currentColor")}' class='bi bi-arrow-up-short' viewBox='0 0 16 16'>
                             <path fill-rule='evenodd' d='M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z'/>
                         </svg>
                         </div>
-                        <div id = 'upvoteText' class='col' style='padding-top: 2px;'>
+                        <div id = 'upvoteText' class='col' style='padding-top: 2px; color: {((userVoted) ? "orange" : "")}'>
                         {post.upvotes}
                         </div>
                     </div>
@@ -181,8 +187,8 @@ namespace FakeHN.UIL
             $@"
                 <div class='timeline-likes'>
                     <div class='stats-left'>
-                        <a id='commentSection{i}Link' href = '#commentSection{i}' class='stats-text text-muted text-decoration-none' data-bs-toggle='collapse'>{postComments.Count} Comments</span>
-                        <div id = 'commentSection{i}'class='collapse container-fluid comments-container mt-4'>
+                        <a id='commentSectionLink{post.postid}' href = '#allComments{post.postid}' class='stats-text text-muted text-decoration-none' data-bs-toggle='collapse'>{postComments.Count} Comments</span>
+                        <div id = 'allComments{post.postid}' class='collapse container-fluid comments-container mt-4'>
             ";
 
             // adding comments
@@ -227,7 +233,7 @@ namespace FakeHN.UIL
             return result;
         }
 
-        private string TimeLineFooter(ref int i)
+        private string TimeLineFooter(ref int i, int postid)
         {
             return 
             $@"
@@ -250,9 +256,9 @@ namespace FakeHN.UIL
                             <div class='input'>
                                 <form action = '' >
                                     <div class='input-group'>
-                                        <input type = 'text' class='form-control rounded-corner' placeholder='Write a comment...'>
+                                        <input id='commentInput{postid}' type = 'text' class='form-control rounded-corner' placeholder='Write a comment...'>
                                         <span class='input-group-btn p-l-10'>
-                                            <button class='btn btn-primary f-s-12 rounded-corner' type='button'>Comment</button>
+                                            <button id='commentButton{postid}' class='btn btn-primary f-s-12 rounded-corner' type='button'>Comment</button>
                                         </span>
                                     </div>
                                 </form>
@@ -274,6 +280,77 @@ namespace FakeHN.UIL
 
                 Response.Redirect("index.aspx");
             }
+        }
+
+        [WebMethod]
+        public static void UpdateVotes(int postid, bool increase)
+        {
+            PostManager postManager = new PostManager();
+            Post post = postManager.getPost(postid);
+            if (increase)
+            {
+                post.upvotes += 1;
+                postManager.addVote(postid, userid);
+                postManager.updatePost(post);
+            }
+            else
+            {
+                if (post.upvotes > 0)
+                {
+                    post.upvotes -= 1;
+                    postManager.removeVote(postid, userid);
+                    postManager.updatePost(post);
+                }
+
+            }
+        }
+
+        [WebMethod]
+        public static string UpdateComments(int postid, string comment)
+        {
+            UserManager userManager = new UserManager();
+            PostManager postManager = new PostManager();
+            CommentManager commentManager = new CommentManager();
+            
+            User commentAuther = userManager.getUser(userid);
+            Post post = postManager.getPost(postid);
+            Comment newComment = new Comment();
+            newComment.authorid = userid;
+            newComment.postid = postid;
+            newComment.body = comment;
+
+            if (commentManager.addComment(newComment))
+            {
+                return
+                $@"
+                    <div class='comment w-100'>
+                        <div class='comment-header mt-2 mx-1 mx-md-4'>
+                            <div class='row w-100 mb-2'>
+                            <div class='col-auto pe-1'>
+                                <svg xmlns = 'http://www.w3.org/2000/svg' width='24' height='24' fill='currentColor' class='bi bi-person-circle' viewBox='0 0 16 16'>
+                                <path d = 'M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z' />
+                                <path fill-rule='evenodd' d='M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z'/>
+                                </svg>
+                            </div>
+                            <div class='col ps-0' style='padding-top: 2px;'>
+                                <span class='h6 text-black'>{commentAuther.name + " " + commentAuther.family}</span> <span class='text-muted'>said</span>:
+                            </div>
+                            </div>
+                        </div>
+                        <div class='comment-body ps-5'>
+                            <p>
+                            {newComment.body}
+                            </p>
+                        </div>
+                    </div>
+                ";
+            }
+            else
+            {
+                return $@"Failed to create a new comment !";
+            }
+
+
         }
     }
 }

@@ -15,6 +15,8 @@
       href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
       rel="stylesheet"
     />
+
+
 </head>
 <body>
     
@@ -154,5 +156,6 @@
     <script src="scripts/jquery.js"></script>
     <script src="scripts/bootstrap.min.js"></script>
     <script src="scripts/main.js"></script>
+
 </body>
 </html>

@@ -243,5 +243,77 @@ namespace FakeHN.DAL
 
             return operationCompleted;
         }
+
+        public bool addVote(int postid, int authorid)
+        {
+            // connect to SQL
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            // SQL command
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.CommandText = "Votes_addVote";
+            SqlParameter postidParameter = sqlCommand.Parameters.Add("@postid", SqlDbType.Int);
+            SqlParameter authoridParameter = sqlCommand.Parameters.Add("@authorid", SqlDbType.Int);
+            postidParameter.Value = postid.ToString();
+            authoridParameter.Value = authorid.ToString();
+
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            reader.Read();
+
+            if (reader.RecordsAffected != 0)
+                return true;
+            else
+                return false;
+        }
+
+        public bool removeVote(int postid, int authorid)
+        {
+            // connect to SQL
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            // SQL command
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.CommandText = "Votes_removeVote";
+            SqlParameter postidParameter = sqlCommand.Parameters.Add("@postid", SqlDbType.Int);
+            SqlParameter authoridParameter = sqlCommand.Parameters.Add("@authorid", SqlDbType.Int);
+            postidParameter.Value = postid.ToString();
+            authoridParameter.Value = authorid.ToString();
+
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            reader.Read();
+
+            if (reader.RecordsAffected != 0)
+                return true;
+            else
+                return false;
+        }
+
+        public bool userVoted(Post post, User user)
+        {
+            // connect to SQL
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            // SQL command
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.CommandText = "Votes_userVoted";
+            SqlParameter postidParameter = sqlCommand.Parameters.Add("@postid", SqlDbType.Int);
+            SqlParameter authoridParameter = sqlCommand.Parameters.Add("@authorid", SqlDbType.Int);
+            postidParameter.Value = post.postid.ToString();
+            authoridParameter.Value = user.userid.ToString();
+
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+            reader.Read();
+
+            if (reader.HasRows)
+                return true;
+            else
+                return false;
+        }
     }
 }

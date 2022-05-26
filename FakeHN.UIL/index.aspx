@@ -1,5 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="FakeHN.UIL.FakeHN" %>
 
+<%@ Register Src="~/controls/Top3Controller.ascx" TagName="TOP3" TagPrefix="FakeHN" %>
+<%@ Register Src="~/controls/TimeLineController.ascx" TagName="TimeLine" TagPrefix="FakeHN" %>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -15,7 +18,6 @@
       href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
       rel="stylesheet"
     />
-
 
 </head>
 <body>
@@ -49,30 +51,13 @@
 
         <!-- main section -->
         <main>
-          <!-- TOP3 -->
-          <div id="carouselTOP3" runat="server" class="carousel slide carousel-dark bg-light rounded m-1 m-sm-2 m-md-3 m-lg-4" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button type="button" data-bs-target="#carouselTOP3" data-bs-slide-to="0" aria-label="Slide 1" class="active"></button>
-              <button type="button" data-bs-target="#carouselTOP3" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#carouselTOP3" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <div class="carousel-inner" runat="server" id="top3CarouselContent"></div>
-            <button type="button" class="carousel-control-prev" data-bs-target="#carouselTOP3" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button type="button" class="carousel-control-next" data-bs-target="#carouselTOP3" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
 
-          <!-- timeline -->
-          <h2 class="h2 text-center mx-auto mt-5">Timeline</h2>
-          <div class="container-fluid px-0">
-            <ul id="timeLineContent" runat="server" class="timeline"></ul>
-          </div> 
+          <!-- TOP3 Posts -->
+          <FakeHN:TOP3 runat="server" ClientIDMode="Static"></FakeHN:TOP3>
 
+          <!-- TIMELINE -->
+          <FakeHN:TimeLine runat="server" ClientIDMode="Static"></FakeHN:TimeLine>
+          
         </main>
     
         <!-- footer section -->

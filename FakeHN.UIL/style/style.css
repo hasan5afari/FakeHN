@@ -277,8 +277,8 @@ body {
 }
 
 /* TOP3 CARDS */
-#carouselTOP3 .carousel-image {
-  height: 400px;
+#t3_carouselTOP3 .carousel-image {
+  height: 400px !important;
 }
 
 .badge-red {

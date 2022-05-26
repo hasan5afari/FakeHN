@@ -7,20 +7,29 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FakeHN.UIL
+namespace FakeHN.UIL.controls
 {
 
 
-    public partial class FakeHN
+    public partial class PostCommentController
     {
 
         /// <summary>
-        /// indexUserINFO control.
+        /// commentAuthor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl indexUserINFO;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl commentAuthor;
+
+        /// <summary>
+        /// commentBody control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl commentBody;
     }
 }

@@ -11,22 +11,12 @@ namespace FakeHN.UIL
 {
     public partial class edit : System.Web.UI.Page
     {
-        private Post post;
         private User user;
         protected void Page_Load(object sender, EventArgs e)
         {
             try
             {
-                // load post
-                int postid = Convert.ToInt32(Request.Cookies["postid"].Value);
-                PostManager postManager = new PostManager();
-                post = postManager.getPost(postid);
-
-                if (!IsPostBack)
-                {
-                    editPostTextArea.Value = post.body;
-                }
-
+                
                 // Check if user already logged in or not .
                 if (!Request.Cookies.AllKeys.Contains("userid"))
                 {
@@ -50,6 +40,31 @@ namespace FakeHN.UIL
 
                     editPostUserINFO.Controls.Add(logoutBtn);
                 }
+
+                if (!IsPostBack)
+                {
+                    int postid = 0;
+
+                    // Getting post id
+                    if (Request.QueryString["PID"] != null && Request.QueryString["PID"] != string.Empty)
+                    {
+                        postid = Convert.ToInt32(Request.QueryString["PID"]);
+                        PostManager postManager = new PostManager();
+                        Post post = postManager.getPost(postid);
+
+                        if (user.userid != post.authorid)
+                        {
+                            Response.Redirect("~/index.aspx");
+                        }
+
+                        editPostTextArea.Value = post.body;
+                    }
+                    else
+                    {
+                        Response.Redirect("~/panel.aspx");
+                    }
+                }
+
             }
             catch (BllException ex)
             {
@@ -63,6 +78,7 @@ namespace FakeHN.UIL
             try
             {
                 PostManager postManager = new PostManager();
+                Post post = postManager.getPost(Convert.ToInt32(Request.QueryString["PID"]));
                 post.body = editPostTextArea.Value;
                 if (postManager.updatePost(post))
                 {
@@ -91,7 +107,7 @@ namespace FakeHN.UIL
                     nameCookie.Expires = DateTime.Now.AddDays(-1);
                     Response.Cookies.Add(nameCookie);
 
-                    Response.Redirect("index.aspx");
+                    Response.Redirect("~/index.aspx");
                 }
             }
             catch (BllException ex)

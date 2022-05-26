@@ -119,12 +119,8 @@ namespace FakeHN.UIL
             try
             {
                 int postid = Convert.ToInt32(((Button)sender).CommandArgument);
+                Response.Redirect("editPost.aspx/?PID=" + Server.UrlEncode(postid.ToString()));
 
-                HttpCookie cook = new HttpCookie("postid");
-                cook.Expires = DateTime.Now.AddMinutes(5);
-                cook.Value = postid.ToString();
-                Response.Cookies.Add(cook);
-                Response.Redirect("editPost.aspx");
             }
             catch (BllException ex)
             {

@@ -28,6 +28,11 @@ namespace FakeHN.UIL
                     UserManager userManager = new UserManager();
                     user = userManager.getUser(userid);
 
+                    if (user.username.Trim() != "admin")
+                    {
+                        Response.Redirect("~/index.aspx");
+                    }
+
                     panelUserINFO.InnerHtml =
                     $@"<a href='panel.aspx'>{user.name}  {user.family} ({user.username})</a> <span>&nbsp;</span>";
 
@@ -135,12 +140,7 @@ namespace FakeHN.UIL
             try
             {
                 int userid = Convert.ToInt32(((Button)sender).CommandArgument);
-
-                HttpCookie cook = new HttpCookie("editing_user");
-                cook.Expires = DateTime.Now.AddMinutes(5);
-                cook.Value = userid.ToString();
-                Response.Cookies.Add(cook);
-                Response.Redirect("editUser.aspx");
+                Response.Redirect("editUser.aspx/?UID=" + Server.UrlEncode(userid.ToString()));
             }
             catch (BllException ex)
             {

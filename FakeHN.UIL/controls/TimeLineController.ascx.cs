@@ -14,8 +14,16 @@ namespace FakeHN.UIL.controls
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Load TimeLine Posts
-            LoadPosts();
+            try
+            {
+                // Load TimeLine Posts
+                LoadPosts();
+            }
+            catch (BllException ex)
+            {
+                ExceptionManager exceptionManager = new ExceptionManager();
+                exceptionManager.saveException("TimeLineController -> Page_Load() -> " + ex.Message_);
+            }
         }
 
         protected void LoadPosts()
@@ -47,7 +55,7 @@ namespace FakeHN.UIL.controls
             catch (BllException ex)
             {
                 ExceptionManager exceptionManager = new ExceptionManager();
-                exceptionManager.saveException("index -> LoadPosts() -> " + ex.Message_);
+                exceptionManager.saveException("TimeLineController -> LoadPosts() -> " + ex.Message_);
             }
         }
     }

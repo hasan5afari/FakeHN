@@ -14,7 +14,15 @@ namespace FakeHN.UIL.controls
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            LoadTop3();
+            try
+            {
+                LoadTop3();
+            }
+            catch (BllException ex)
+            {
+                ExceptionManager exceptionManager = new ExceptionManager();
+                exceptionManager.saveException("Top3Controller -> Page_Load() -> " + ex.Message_);
+            }
         }
 
         protected void LoadTop3()
@@ -63,7 +71,7 @@ namespace FakeHN.UIL.controls
             catch (BllException ex)
             {
                 ExceptionManager exceptionManager = new ExceptionManager();
-                exceptionManager.saveException("index -> LoadTop3() -> " + ex.Message_);
+                exceptionManager.saveException("Top3Controller -> LoadTop3() -> " + ex.Message_);
             }
         }
     }

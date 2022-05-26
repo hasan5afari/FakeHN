@@ -37,7 +37,7 @@ namespace FakeHN.UIL.controls
             catch (BllException ex)
             {
                 ExceptionManager exceptionManager = new ExceptionManager();
-                exceptionManager.saveException("post -> LoadPost() -> " + ex.Message_);
+                exceptionManager.saveException("TLPostController -> Page_Load() -> " + ex.Message_);
             }
         }
 
@@ -63,7 +63,7 @@ namespace FakeHN.UIL.controls
             catch (BllException ex)
             {
                 ExceptionManager exceptionManager = new ExceptionManager();
-                exceptionManager.saveException("post -> LoadPost() -> " + ex.Message_);
+                exceptionManager.saveException("TLPost -> LoadPost() -> " + ex.Message_);
             }
         }
 
@@ -77,7 +77,7 @@ namespace FakeHN.UIL.controls
             catch (BllException ex)
             {
                 ExceptionManager exceptionManager = new ExceptionManager();
-                exceptionManager.saveException("post -> PostIcon() -> " + ex.Message_);
+                exceptionManager.saveException("TLPost -> PostIcon() -> " + ex.Message_);
             }
         }
 
@@ -100,7 +100,7 @@ namespace FakeHN.UIL.controls
             catch (BllException ex)
             {
                 ExceptionManager exceptionManager = new ExceptionManager();
-                exceptionManager.saveException("post -> PostBody() -> " + ex.Message_);
+                exceptionManager.saveException("TLPost -> PostBody() -> " + ex.Message_);
             }
         }
 
@@ -131,7 +131,7 @@ namespace FakeHN.UIL.controls
             catch (BllException ex)
             {
                 ExceptionManager exceptionManager = new ExceptionManager();
-                exceptionManager.saveException("post -> PostCommentsAndLikes() -> " + ex.Message_);
+                exceptionManager.saveException("TLPost -> PostCommentsAndLikes() -> " + ex.Message_);
             }
         }
 
@@ -149,7 +149,7 @@ namespace FakeHN.UIL.controls
             catch (BllException ex)
             {
                 ExceptionManager exceptionManager = new ExceptionManager();
-                exceptionManager.saveException("post -> TimeLineFooter() -> " + ex.Message_);
+                exceptionManager.saveException("TLPost -> PostFooter() -> " + ex.Message_);
             }
         }
     }
